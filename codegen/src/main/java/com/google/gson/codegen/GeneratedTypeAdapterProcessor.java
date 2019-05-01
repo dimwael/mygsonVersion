@@ -58,4 +58,18 @@ public final class GeneratedTypeAdapterProcessor extends AbstractProcessor {
     writer.endType();
     writer.close();
   }
+  
+  private void writeAdapters(TypeElement type) throws IOException {
+    String typeAdapterName = CodeGen.adapterName(type, "$TypeAdapter");
+    JavaFileObject sourceFile = processingEnv.getFiler()
+        .createSourceFile(typeAdapterName, type);
+    System.out.println("Generating type adapter: " + typeAdapterName + " in " + sourceFile.getName());
+
+    JavaWriter writer = new JavaWriter(sourceFile.openWriter());
+    writer.addPackage(CodeGen.getPackage(type).getQualifiedName().toString());
+    writer.beginType(typeAdapterName, "class", FINAL, null);
+    writer.endType();
+    writer.close();
+}
+  
 }
