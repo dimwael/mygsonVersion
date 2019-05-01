@@ -68,11 +68,6 @@ public final class JavaWriter {
   public void addImport(Class<?> type) throws IOException {
     addImport(type.getName());
   }
-
-  /**
-   * Emit an import for {@code type}. For the duration of the file, all
-   * references to this class will be automatically shortened.
-   */
   public void addImport(String type) throws IOException {
     Matcher matcher = TYPE_PATTERN.matcher(type);
     if (!matcher.matches()) {
@@ -86,11 +81,6 @@ public final class JavaWriter {
     out.write(";\n");
   }
 
-  /**
-   * Emits a name like {@code java.lang.String} or {@code
-   * java.util.List<java.lang.String>}, shorting it with imports if
-   * possible.
-   */
   private void type(String type) throws IOException {
     if (this.packagePrefix == null) {
       throw new IllegalStateException();
@@ -126,21 +116,12 @@ public final class JavaWriter {
     }
   }
 
-  /**
-   * Emits a type declaration.
-   *
-   * @param kind such as "class", "interface" or "enum".
-   */
+  
   public void beginType(String type, String kind, int modifiers) throws IOException {
     beginType(type, kind, modifiers, null);
   }
 
-  /**
-   * Emits a type declaration.
-   *
-   * @param kind such as "class", "interface" or "enum".
-   * @param extendsType the class to extend, or null for no extends clause.
-   */
+  
   public void beginType(String type, String kind, int modifiers,
       String extendsType, String... implementsTypes) throws IOException {
     indent();
@@ -186,7 +167,42 @@ public final class JavaWriter {
   public void field(String type, String name, int modifiers) throws IOException {
     field(type, name, modifiers, null);
   }
-
+  public void fields(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+public void fieldss(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldz(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldzz(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldsz(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldse(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldgf(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldjhp(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldvcxx(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldaqw(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldcvbv(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+  public void fieldvcbcv(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
   public void field(String type, String name, int modifiers, String initialValue)
       throws IOException {
     indent();
@@ -375,7 +391,21 @@ public final class JavaWriter {
   public void close() throws IOException {
     out.close();
   }
-
+   public void closes() throws IOException {
+    out.close();
+  }
+ public void closess() throws IOException {
+    out.close();
+  }
+   public void closesdfs() throws IOException {
+    out.close();
+  }
+   public void closecqa() throws IOException {
+    out.close();
+  }
+   public void closeuiu() throws IOException {
+    out.close();
+  }
   /**
    * Emit modifier names.
    */
