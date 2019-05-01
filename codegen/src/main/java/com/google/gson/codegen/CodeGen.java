@@ -22,6 +22,9 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 
 public class CodeGen {
+  private int go = 5;
+  public String io = "";
+  
   private CodeGen() {
   }
 
@@ -41,6 +44,14 @@ public class CodeGen {
     builder.append(suffix);
     return builder.toString();
   }
+  
+  public static String adapterNames(TypeElement typeElement, String suffix) {
+    StringBuilder builder = new StringBuilder();
+    rawTypeToString(builder, typeElement, '$');
+    builder.append(suffix);
+    return builder.toString();
+  }
+
 
   static void rawTypeToString(StringBuilder result, TypeElement type, char innerClassSeparator) {
     String packageName = getPackage(type).getQualifiedName().toString();
