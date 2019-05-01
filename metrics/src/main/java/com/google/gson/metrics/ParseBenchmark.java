@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2011 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.google.gson.metrics;
 
@@ -40,13 +25,7 @@ import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-/**
- * Measure Gson and Jackson parsing and binding performance.
- *
- * <p>This benchmark requires that ParseBenchmarkData.zip is on the classpath.
- * That file contains Twitter feed data, which is representative of what
- * applications will be parsing.
- */
+
 public final class ParseBenchmark extends SimpleBenchmark {
   @Param Document document;
   @Param Api api;
@@ -373,15 +352,13 @@ public final class ParseBenchmark extends SimpleBenchmark {
 
   static class Content {
     @JsonProperty String content;
-
     @Override public String toString() {
       return content;
     }
   }
 
-  static class ReaderUser {
+  static class ReaderUser{
     @JsonProperty String userId;
-
     @Override public String toString() {
       return userId;
     }
