@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2010 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.google.gson.protobuf;
 
@@ -49,38 +34,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-/**
- * GSON type adapter for protocol buffers that knows how to serialize enums either by using their
- * values or their names, and also supports custom proto field names.
- * <p>
- * You can specify which case representation is used for the proto fields when writing/reading the
- * JSON payload by calling {@link Builder#setFieldNameSerializationFormat(CaseFormat, CaseFormat)}.
- * <p>
- * An example of default serialization/deserialization using custom proto field names is shown
- * below:
- *
- * <pre>
- * message MyMessage {
- *   // Will be serialized as 'osBuildID' instead of the default 'osBuildId'.
- *   string os_build_id = 1 [(serialized_name) = "osBuildID"];
- * }
- * </pre>
- * <p>
- *
- * @author Inderjeet Singh
- * @author Emmanuel Cron
- * @author Stanley Wang
- */
+
 public class ProtoTypeAdapter
     implements JsonSerializer<Message>, JsonDeserializer<Message> {
-  /**
-   * Determines how enum <u>values</u> should be serialized.
-   */
+  
   public static enum EnumSerialization {
-    /**
-     * Serializes and deserializes enum values using their <b>number</b>. When this is used, custom
-     * value names set on enums are ignored.
-     */
+    
     NUMBER,
     /** Serializes and deserializes enum values using their <b>name</b>. */
     NAME;
