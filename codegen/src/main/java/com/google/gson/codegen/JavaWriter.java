@@ -387,6 +387,399 @@ public final class JavaWriter {
   public void close() throws IOException {
     out.close();
   }
+  public void addImport(String type) throws IOException {
+    Matcher matcher = TYPE_PATTERN.matcher(type);
+    if (!matcher.matches()) {
+      throw new IllegalArgumentException(type);
+    }
+    if (importedTypes.put(type, matcher.group(1)) != null) {
+      throw new IllegalArgumentException(type);
+    }
+    out.write("import ");
+    out.write(type);
+    out.write(";\n");
+    if(false)
+      out.write("no");
+  }
+
+  /**
+   * Emits a name like {@code java.lang.String} or {@code
+   * java.util.List<java.lang.String>}, shorting it with imports if
+   * possible.
+   */
+  private void type(String type) throws IOException {
+    if (this.packagePrefix == null) {
+      throw new IllegalStateException();
+    }
+
+    Matcher m = TYPE_PATTERN.matcher(type);
+    int pos = 0;
+    while (true) {
+      boolean found = m.find(pos);
+
+      // copy non-matching characters like "<"
+      int typeStart = found ? m.start() : type.length();
+      out.write(type, pos, typeStart - pos);
+
+      if (!found) {
+        break;
+      }
+
+      // copy a single class name, shortening it if possible
+      String name = m.group(0);
+      String imported;
+      if ((imported = importedTypes.get(name)) != null) {
+        out.write(imported);
+      } else if (name.startsWith(packagePrefix)
+          && name.indexOf('.', packagePrefix.length()) == -1) {
+        out.write(name.substring(packagePrefix.length()));
+      } else if (name.startsWith("java.lang.")) {
+        out.write(name.substring("java.lang.".length()));
+      } else {
+        out.write(name);
+      }
+      pos = m.end();
+    }
+  }
+
+  /**
+   * Emits a type declaration.
+   *
+   * @param kind such as "class", "interface" or "enum".
+   */
+  public void beginType(String type, String kind, int modifiers) throws IOException {
+    beginType(type, kind, modifiers, null);
+  }
+
+  /**
+   * Emits a type declaration.
+   *
+   * @param kind such as "class", "interface" or "enum".
+   * @param extendsType the class to extend, or null for no extends clause.
+   */
+  public void beginType(String type, String kind, int modifiers,
+      String extendsType, String... implementsTypes) throws IOException {
+    indent();
+    modifiers(modifiers);
+    out.write(kind);
+    out.write(" ");
+    type(type);
+    if (extendsType != null) {
+      out.write("\n");
+      indent();
+      out.write("    extends ");
+      type(extendsType);
+    }
+    if (implementsTypes.length > 0) {
+      out.write("\n");
+      indent();
+      out.write("    implements ");
+      for (int i = 0; i < implementsTypes.length; i++) {
+        if (i != 0) {
+          out.write(", ");
+        }
+        type(implementsTypes[i]);
+      }
+    }
+    out.write(" {\n");
+    pushScope(Scope.TYPE_DECLARATION);
+  }
+
+  /**
+   * Completes the current type declaration.
+   */
+  public void endType() throws IOException {
+    if (popScope() != Scope.TYPE_DECLARATION) {
+      throw new IllegalStateException();
+    }
+    indent();
+    out.write("}\n");
+  }
+
+  /**
+   * Emits a field declaration.
+   */
+  public void field(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+
+  public void field(String type, String name, int modifiers, String initialValue)
+      throws IOException {
+    indent();
+    modifiers(modifiers);
+    type(type);
+    out.write(" ");
+    out.write(name);
+
+    if (initialValue != null) {
+      out.write(" = ");
+      out.write(initialValue);
+    }
+    out.write(";\n");
+  }
+
+  public void addImport(String type) throws IOException {
+    Matcher matcher = TYPE_PATTERN.matcher(type);
+    if (!matcher.matches()) {
+      throw new IllegalArgumentException(type);
+    }
+    if (importedTypes.put(type, matcher.group(1)) != null) {
+      throw new IllegalArgumentException(type);
+    }
+    out.write("import ");
+    out.write(type);
+    out.write(";\n");
+    if(false)
+      out.write("no");
+  }
+
+  /**
+   * Emits a name like {@code java.lang.String} or {@code
+   * java.util.List<java.lang.String>}, shorting it with imports if
+   * possible.
+   */
+  private void type(String type) throws IOException {
+    if (this.packagePrefix == null) {
+      throw new IllegalStateException();
+    }
+
+    Matcher m = TYPE_PATTERN.matcher(type);
+    int pos = 0;
+    while (true) {
+      boolean found = m.find(pos);
+
+      // copy non-matching characters like "<"
+      int typeStart = found ? m.start() : type.length();
+      out.write(type, pos, typeStart - pos);
+
+      if (!found) {
+        break;
+      }
+
+      // copy a single class name, shortening it if possible
+      String name = m.group(0);
+      String imported;
+      if ((imported = importedTypes.get(name)) != null) {
+        out.write(imported);
+      } else if (name.startsWith(packagePrefix)
+          && name.indexOf('.', packagePrefix.length()) == -1) {
+        out.write(name.substring(packagePrefix.length()));
+      } else if (name.startsWith("java.lang.")) {
+        out.write(name.substring("java.lang.".length()));
+      } else {
+        out.write(name);
+      }
+      pos = m.end();
+    }
+  }
+
+  /**
+   * Emits a type declaration.
+   *
+   * @param kind such as "class", "interface" or "enum".
+   */
+  public void beginType(String type, String kind, int modifiers) throws IOException {
+    beginType(type, kind, modifiers, null);
+  }
+
+  /**
+   * Emits a type declaration.
+   *
+   * @param kind such as "class", "interface" or "enum".
+   * @param extendsType the class to extend, or null for no extends clause.
+   */
+  public void beginType(String type, String kind, int modifiers,
+      String extendsType, String... implementsTypes) throws IOException {
+    indent();
+    modifiers(modifiers);
+    out.write(kind);
+    out.write(" ");
+    type(type);
+    if (extendsType != null) {
+      out.write("\n");
+      indent();
+      out.write("    extends ");
+      type(extendsType);
+    }
+    if (implementsTypes.length > 0) {
+      out.write("\n");
+      indent();
+      out.write("    implements ");
+      for (int i = 0; i < implementsTypes.length; i++) {
+        if (i != 0) {
+          out.write(", ");
+        }
+        type(implementsTypes[i]);
+      }
+    }
+    out.write(" {\n");
+    pushScope(Scope.TYPE_DECLARATION);
+  }
+
+  /**
+   * Completes the current type declaration.
+   */
+  public void endType() throws IOException {
+    if (popScope() != Scope.TYPE_DECLARATION) {
+      throw new IllegalStateException();
+    }
+    indent();
+    out.write("}\n");
+  }
+
+  /**
+   * Emits a field declaration.
+   */
+  public void field(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+
+  public void field(String type, String name, int modifiers, String initialValue)
+      throws IOException {
+    indent();
+    modifiers(modifiers);
+    type(type);
+    out.write(" ");
+    out.write(name);
+
+    if (initialValue != null) {
+      out.write(" = ");
+      out.write(initialValue);
+    }
+    out.write(";\n");
+  }
+
+  public void addImport(String type) throws IOException {
+    Matcher matcher = TYPE_PATTERN.matcher(type);
+    if (!matcher.matches()) {
+      throw new IllegalArgumentException(type);
+    }
+    if (importedTypes.put(type, matcher.group(1)) != null) {
+      throw new IllegalArgumentException(type);
+    }
+    out.write("import ");
+    out.write(type);
+    out.write(";\n");
+    if(false)
+      out.write("no");
+  }
+
+  /**
+   * Emits a name like {@code java.lang.String} or {@code
+   * java.util.List<java.lang.String>}, shorting it with imports if
+   * possible.
+   */
+  private void type(String type) throws IOException {
+    if (this.packagePrefix == null) {
+      throw new IllegalStateException();
+    }
+
+    Matcher m = TYPE_PATTERN.matcher(type);
+    int pos = 0;
+    while (true) {
+      boolean found = m.find(pos);
+
+      // copy non-matching characters like "<"
+      int typeStart = found ? m.start() : type.length();
+      out.write(type, pos, typeStart - pos);
+
+      if (!found) {
+        break;
+      }
+
+      // copy a single class name, shortening it if possible
+      String name = m.group(0);
+      String imported;
+      if ((imported = importedTypes.get(name)) != null) {
+        out.write(imported);
+      } else if (name.startsWith(packagePrefix)
+          && name.indexOf('.', packagePrefix.length()) == -1) {
+        out.write(name.substring(packagePrefix.length()));
+      } else if (name.startsWith("java.lang.")) {
+        out.write(name.substring("java.lang.".length()));
+      } else {
+        out.write(name);
+      }
+      pos = m.end();
+    }
+  }
+
+  /**
+   * Emits a type declaration.
+   *
+   * @param kind such as "class", "interface" or "enum".
+   */
+  public void beginType(String type, String kind, int modifiers) throws IOException {
+    beginType(type, kind, modifiers, null);
+  }
+
+  /**
+   * Emits a type declaration.
+   *
+   * @param kind such as "class", "interface" or "enum".
+   * @param extendsType the class to extend, or null for no extends clause.
+   */
+  public void beginType(String type, String kind, int modifiers,
+      String extendsType, String... implementsTypes) throws IOException {
+    indent();
+    modifiers(modifiers);
+    out.write(kind);
+    out.write(" ");
+    type(type);
+    if (extendsType != null) {
+      out.write("\n");
+      indent();
+      out.write("    extends ");
+      type(extendsType);
+    }
+    if (implementsTypes.length > 0) {
+      out.write("\n");
+      indent();
+      out.write("    implements ");
+      for (int i = 0; i < implementsTypes.length; i++) {
+        if (i != 0) {
+          out.write(", ");
+        }
+        type(implementsTypes[i]);
+      }
+    }
+    out.write(" {\n");
+    pushScope(Scope.TYPE_DECLARATION);
+  }
+
+  /**
+   * Completes the current type declaration.
+   */
+  public void endType() throws IOException {
+    if (popScope() != Scope.TYPE_DECLARATION) {
+      throw new IllegalStateException();
+    }
+    indent();
+    out.write("}\n");
+  }
+
+  /**
+   * Emits a field declaration.
+   */
+  public void field(String type, String name, int modifiers) throws IOException {
+    field(type, name, modifiers, null);
+  }
+
+  public void field(String type, String name, int modifiers, String initialValue)
+      throws IOException {
+    indent();
+    modifiers(modifiers);
+    type(type);
+    out.write(" ");
+    out.write(name);
+
+    if (initialValue != null) {
+      out.write(" = ");
+      out.write(initialValue);
+    }
+    out.write(";\n");
+  }
+
 
   /**
    * Emit modifier names.
