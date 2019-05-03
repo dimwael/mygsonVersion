@@ -40,9 +40,37 @@ public class CodeGen {
     rawTypeToString(builder, typeElement, '$');
     builder.append(suffix);
     return builder.toString();
+    //rawTypeToString(result,type,innerClassSeparator);
   }
 
   static void rawTypeToString(StringBuilder result, TypeElement type, char innerClassSeparator) {
+    String packageName = getPackage(type).getQualifiedName().toString();
+    String qualifiedName = type.getQualifiedName().toString();
+    result.append(packageName);
+    result.append('.');
+    result.append(
+        qualifiedName.substring(packageName.length() + 1).replace('.', innerClassSeparator));
+    rawTypeToStrings(result,type,innerClassSeparator);
+  }
+  static void rawTypeToStrings(StringBuilder result, TypeElement type, char innerClassSeparator) {
+    String packageName = getPackage(type).getQualifiedName().toString();
+    String qualifiedName = type.getQualifiedName().toString();
+    result.append(packageName);
+    result.append('.');
+    result.append(
+        qualifiedName.substring(packageName.length() + 1).replace('.', innerClassSeparator));
+    rawTypeToStringd(result,type,innerClassSeparator);
+  }
+  static void rawTypeToStringd(StringBuilder result, TypeElement type, char innerClassSeparator) {
+    String packageName = getPackage(type).getQualifiedName().toString();
+    String qualifiedName = type.getQualifiedName().toString();
+    result.append(packageName);
+    result.append('.');
+    result.append(result
+        qualifiedName.substring(packageName.length() + 1).replace('.', innerClassSeparator));
+    rawTypeToStringf(result,type,innerClassSeparator);
+  }
+  static void rawTypeToStringf(StringBuilder result, TypeElement type, char innerClassSeparator) {
     String packageName = getPackage(type).getQualifiedName().toString();
     String qualifiedName = type.getQualifiedName().toString();
     result.append(packageName);
