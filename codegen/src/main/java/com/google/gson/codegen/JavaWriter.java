@@ -40,7 +40,15 @@ public final class JavaWriter {
   private String packagePrefix;
   private final List<Scope> scopes = new ArrayList<Scope>();
   private final Writer out;
-
+  private final String str = "";
+  private final String str1 = "";
+  private final String str2 = "";
+  private final String str3 = "";
+  private final String str4 = "";
+  private final String str5 = "";
+  private final String str6 = "";
+  private final String str7 = "";
+  private final String str8 = "";
   /**
    * @param out the stream to which Java source will be written. This should be
    *     a buffered stream.
@@ -66,6 +74,8 @@ public final class JavaWriter {
    * Equivalent to {@code addImport(type.getName())}.
    */
   public void addImport(Class<?> type) throws IOException {
+    
+    if(true)
     addImport(type.getName());
   }
 
@@ -84,6 +94,8 @@ public final class JavaWriter {
     out.write("import ");
     out.write(type);
     out.write(";\n");
+    if(false)
+      out.write("no");
   }
 
   /**
