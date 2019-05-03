@@ -1,21 +1,87 @@
-/*
- * Copyright (C) 2012 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package com.google.gson.codegen;
 
 public @interface GeneratedTypeAdapter {
   Class<?>[] value() default {};
+}
+public class MyClass {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClasses {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClassii {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClasss {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClassc {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClasszs {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClassff {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClasspopo {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClassbn {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+public class MyClasscvs {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
 }
