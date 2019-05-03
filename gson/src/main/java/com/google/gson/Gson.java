@@ -472,56 +472,8 @@ public final class Gson {
     }
   }
 
-  /**
-   * This method is used to get an alternate type adapter for the specified type. This is used
-   * to access a type adapter that is overridden by a {@link TypeAdapterFactory} that you
-   * may have registered. This features is typically used when you want to register a type
-   * adapter that does a little bit of work but then delegates further processing to the Gson
-   * default type adapter. Here is an example:
-   * <p>Let's say we want to write a type adapter that counts the number of objects being read
-   *  from or written to JSON. We can achieve this by writing a type adapter factory that uses
-   *  the <code>getDelegateAdapter</code> method:
-   *  <pre> {@code
-   *  class StatsTypeAdapterFactory implements TypeAdapterFactory {
-   *    public int numReads = 0;
-   *    public int numWrites = 0;
-   *    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-   *      final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
-   *      return new TypeAdapter<T>() {
-   *        public void write(JsonWriter out, T value) throws IOException {
-   *          ++numWrites;
-   *          delegate.write(out, value);
-   *        }
-   *        public T read(JsonReader in) throws IOException {
-   *          ++numReads;
-   *          return delegate.read(in);
-   *        }
-   *      };
-   *    }
-   *  }
-   *  } </pre>
-   *  This factory can now be used like this:
-   *  <pre> {@code
-   *  StatsTypeAdapterFactory stats = new StatsTypeAdapterFactory();
-   *  Gson gson = new GsonBuilder().registerTypeAdapterFactory(stats).create();
-   *  // Call gson.toJson() and fromJson methods on objects
-   *  System.out.println("Num JSON reads" + stats.numReads);
-   *  System.out.println("Num JSON writes" + stats.numWrites);
-   *  }</pre>
-   *  Note that this call will skip all factories registered before {@code skipPast}. In case of
-   *  multiple TypeAdapterFactories registered it is up to the caller of this function to insure
-   *  that the order of registration does not prevent this method from reaching a factory they
-   *  would expect to reply from this call.
-   *  Note that since you can not override type adapter factories for String and Java primitive
-   *  types, our stats factory will not count the number of String or primitives that will be
-   *  read or written.
-   * @param skipPast The type adapter factory that needs to be skipped while searching for
-   *   a matching type adapter. In most cases, you should just pass <i>this</i> (the type adapter
-   *   factory from where {@link #getDelegateAdapter} method is being invoked).
-   * @param type Type for which the delegate adapter is being searched for.
-   *
-   * @since 2.2
-   */
+  
+   
   public <T> TypeAdapter<T> getDelegateAdapter(TypeAdapterFactory skipPast, TypeToken<T> type) {
     // Hack. If the skipPast factory isn't registered, assume the factory is being requested via
     // our @JsonAdapter annotation.
@@ -556,19 +508,7 @@ public final class Gson {
     return getAdapter(TypeToken.get(type));
   }
 
-  /**
-   * This method serializes the specified object into its equivalent representation as a tree of
-   * {@link JsonElement}s. This method should be used when the specified object is not a generic
-   * type. This method uses {@link Class#getClass()} to get the type for the specified object, but
-   * the {@code getClass()} loses the generic type information because of the Type Erasure feature
-   * of Java. Note that this method works fine if the any of the object fields are of generic type,
-   * just the object itself should not be of a generic type. If the object is of generic type, use
-   * {@link #toJsonTree(Object, Type)} instead.
-   *
-   * @param src the object for which Json representation is to be created setting for Gson
-   * @return Json representation of {@code src}.
-   * @since 1.4
-   */
+ 
   public JsonElement toJsonTree(Object src) {
     if (src == null) {
       return JsonNull.INSTANCE;
@@ -576,41 +516,14 @@ public final class Gson {
     return toJsonTree(src, src.getClass());
   }
 
-  /**
-   * This method serializes the specified object, including those of generic types, into its
-   * equivalent representation as a tree of {@link JsonElement}s. This method must be used if the
-   * specified object is a generic type. For non-generic objects, use {@link #toJsonTree(Object)}
-   * instead.
-   *
-   * @param src the object for which JSON representation is to be created
-   * @param typeOfSrc The specific genericized type of src. You can obtain
-   * this type by using the {@link com.google.gson.reflect.TypeToken} class. For example,
-   * to get the type for {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfSrc = new TypeToken&lt;Collection&lt;Foo&gt;&gt;(){}.getType();
-   * </pre>
-   * @return Json representation of {@code src}
-   * @since 1.4
-   */
+  
   public JsonElement toJsonTree(Object src, Type typeOfSrc) {
     JsonTreeWriter writer = new JsonTreeWriter();
     toJson(src, typeOfSrc, writer);
     return writer.get();
   }
 
-  /**
-   * This method serializes the specified object into its equivalent Json representation.
-   * This method should be used when the specified object is not a generic type. This method uses
-   * {@link Class#getClass()} to get the type for the specified object, but the
-   * {@code getClass()} loses the generic type information because of the Type Erasure feature
-   * of Java. Note that this method works fine if the any of the object fields are of generic type,
-   * just the object itself should not be of a generic type. If the object is of generic type, use
-   * {@link #toJson(Object, Type)} instead. If you want to write out the object to a
-   * {@link Writer}, use {@link #toJson(Object, Appendable)} instead.
-   *
-   * @param src the object for which Json representation is to be created setting for Gson
-   * @return Json representation of {@code src}.
-   */
+  
   public String toJson(Object src) {
     if (src == null) {
       return toJson(JsonNull.INSTANCE);
@@ -618,41 +531,14 @@ public final class Gson {
     return toJson(src, src.getClass());
   }
 
-  /**
-   * This method serializes the specified object, including those of generic types, into its
-   * equivalent Json representation. This method must be used if the specified object is a generic
-   * type. For non-generic objects, use {@link #toJson(Object)} instead. If you want to write out
-   * the object to a {@link Appendable}, use {@link #toJson(Object, Type, Appendable)} instead.
-   *
-   * @param src the object for which JSON representation is to be created
-   * @param typeOfSrc The specific genericized type of src. You can obtain
-   * this type by using the {@link com.google.gson.reflect.TypeToken} class. For example,
-   * to get the type for {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfSrc = new TypeToken&lt;Collection&lt;Foo&gt;&gt;(){}.getType();
-   * </pre>
-   * @return Json representation of {@code src}
-   */
+  
   public String toJson(Object src, Type typeOfSrc) {
     StringWriter writer = new StringWriter();
     toJson(src, typeOfSrc, writer);
     return writer.toString();
   }
 
-  /**
-   * This method serializes the specified object into its equivalent Json representation.
-   * This method should be used when the specified object is not a generic type. This method uses
-   * {@link Class#getClass()} to get the type for the specified object, but the
-   * {@code getClass()} loses the generic type information because of the Type Erasure feature
-   * of Java. Note that this method works fine if the any of the object fields are of generic type,
-   * just the object itself should not be of a generic type. If the object is of generic type, use
-   * {@link #toJson(Object, Type, Appendable)} instead.
-   *
-   * @param src the object for which Json representation is to be created setting for Gson
-   * @param writer Writer to which the Json representation needs to be written
-   * @throws JsonIOException if there was a problem writing to the writer
-   * @since 1.2
-   */
+  
   public void toJson(Object src, Appendable writer) throws JsonIOException {
     if (src != null) {
       toJson(src, src.getClass(), writer);
@@ -661,22 +547,7 @@ public final class Gson {
     }
   }
 
-  /**
-   * This method serializes the specified object, including those of generic types, into its
-   * equivalent Json representation. This method must be used if the specified object is a generic
-   * type. For non-generic objects, use {@link #toJson(Object, Appendable)} instead.
-   *
-   * @param src the object for which JSON representation is to be created
-   * @param typeOfSrc The specific genericized type of src. You can obtain
-   * this type by using the {@link com.google.gson.reflect.TypeToken} class. For example,
-   * to get the type for {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfSrc = new TypeToken&lt;Collection&lt;Foo&gt;&gt;(){}.getType();
-   * </pre>
-   * @param writer Writer to which the Json representation of src needs to be written.
-   * @throws JsonIOException if there was a problem writing to the writer
-   * @since 1.2
-   */
+  
   public void toJson(Object src, Type typeOfSrc, Appendable writer) throws JsonIOException {
     try {
       JsonWriter jsonWriter = newJsonWriter(Streams.writerForAppendable(writer));
